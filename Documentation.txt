@@ -1,0 +1,13 @@
+
+Multiplayer Client Server
+
+Functionality
+==========================
+Dynamic Flood Rate
+
+
+Debuggin And Testing
+==========================
+Psudo Slow Connection
+Force Random Packet Drops
+Pause On Sync Mode

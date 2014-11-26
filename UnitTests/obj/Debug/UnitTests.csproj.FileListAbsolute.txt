@@ -1,0 +1,5 @@
+c:\dev\GameMultiplayerFramework\UnitTests\bin\Debug\UnitTests.dll
+c:\dev\GameMultiplayerFramework\UnitTests\bin\Debug\UnitTests.pdb
+c:\dev\GameMultiplayerFramework\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
+c:\dev\GameMultiplayerFramework\UnitTests\obj\Debug\UnitTests.dll
+c:\dev\GameMultiplayerFramework\UnitTests\obj\Debug\UnitTests.pdb

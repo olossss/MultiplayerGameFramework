@@ -1,0 +1,5 @@
+c:\dev\GameMultiplayerFramework\MultiplayerServer\bin\Debug\MultiplayerServer.dll
+c:\dev\GameMultiplayerFramework\MultiplayerServer\bin\Debug\MultiplayerServer.pdb
+c:\dev\GameMultiplayerFramework\MultiplayerServer\obj\Debug\MultiplayerServer.dll
+c:\dev\GameMultiplayerFramework\MultiplayerServer\obj\Debug\MultiplayerServer.pdb
+c:\dev\GameMultiplayerFramework\MultiplayerServer\obj\Debug\MultiplayerServer.csprojResolveAssemblyReference.cache

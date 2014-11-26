@@ -1,0 +1,5 @@
+c:\dev\GameMultiplayerFramework\MultiplayerClient\bin\Debug\MultiplayerClient.dll
+c:\dev\GameMultiplayerFramework\MultiplayerClient\bin\Debug\MultiplayerClient.pdb
+c:\dev\GameMultiplayerFramework\MultiplayerClient\obj\Debug\MultiplayerClient.dll
+c:\dev\GameMultiplayerFramework\MultiplayerClient\obj\Debug\MultiplayerClient.pdb
+c:\dev\GameMultiplayerFramework\MultiplayerClient\obj\Debug\MultiplayerClient.csprojResolveAssemblyReference.cache
