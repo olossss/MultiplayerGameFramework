@@ -5,9 +5,7 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementationServer", "GameMultiplayerFramework\ImplementationServer.csproj", "{6138AC54-9DE6-4452-8C51-1ECCFA30B567}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiplayerServer", "MultiplayerServer\MultiplayerServer.csproj", "{C83FFCC2-768E-4AB3-8B32-8026C66C5BD9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiplayerClient", "MultiplayerClient\MultiplayerClient.csproj", "{098B5A18-6BF9-4294-B712-7FACFCD17E4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiplayerNetworkFramework", "MultiplayerServer\MultiplayerNetworkFramework.csproj", "{C83FFCC2-768E-4AB3-8B32-8026C66C5BD9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementationClient", "ImplementationClient\ImplementationClient.csproj", "{DEBB8A86-4FAA-48B7-B604-0229D889338B}"
 EndProject
@@ -18,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Documentation.txt = Documentation.txt
 		ReadMe.txt = ReadMe.txt
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImplementationsPrograms", "ImplementationsPrograms", "{F7729BB3-3378-4580-B62A-6200F6AA20E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{BC4C313F-9E31-410E-88F0-3502402D605E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{03D36462-4729-4A74-94A6-B639FD39F9B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +37,6 @@ Global
 		{C83FFCC2-768E-4AB3-8B32-8026C66C5BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C83FFCC2-768E-4AB3-8B32-8026C66C5BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C83FFCC2-768E-4AB3-8B32-8026C66C5BD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{098B5A18-6BF9-4294-B712-7FACFCD17E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{098B5A18-6BF9-4294-B712-7FACFCD17E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{098B5A18-6BF9-4294-B712-7FACFCD17E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{098B5A18-6BF9-4294-B712-7FACFCD17E4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DEBB8A86-4FAA-48B7-B604-0229D889338B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DEBB8A86-4FAA-48B7-B604-0229D889338B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEBB8A86-4FAA-48B7-B604-0229D889338B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,5 +48,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6138AC54-9DE6-4452-8C51-1ECCFA30B567} = {F7729BB3-3378-4580-B62A-6200F6AA20E8}
+		{C83FFCC2-768E-4AB3-8B32-8026C66C5BD9} = {BC4C313F-9E31-410E-88F0-3502402D605E}
+		{DEBB8A86-4FAA-48B7-B604-0229D889338B} = {F7729BB3-3378-4580-B62A-6200F6AA20E8}
+		{2A74696C-526C-4425-B89A-55E5E39F6456} = {03D36462-4729-4A74-94A6-B639FD39F9B3}
 	EndGlobalSection
 EndGlobal

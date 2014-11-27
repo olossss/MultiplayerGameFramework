@@ -30,7 +30,7 @@ namespace ImplementationClient
             // Send Connection Packet
             Console.WriteLine("Press Enter To Send Empty Packet");
             Console.ReadLine();
-            client.sendMessage("");
+            client.SendMessage(""); 
             
             while (true) { 
                 // Dont force close

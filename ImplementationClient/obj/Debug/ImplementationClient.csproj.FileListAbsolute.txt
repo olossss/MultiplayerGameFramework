@@ -1,8 +1,0 @@
-c:\dev\GameMultiplayerFramework\ImplementationClient\bin\Debug\ImplementationClient.exe.config
-c:\dev\GameMultiplayerFramework\ImplementationClient\bin\Debug\ImplementationClient.exe
-c:\dev\GameMultiplayerFramework\ImplementationClient\bin\Debug\ImplementationClient.pdb
-c:\dev\GameMultiplayerFramework\ImplementationClient\obj\Debug\ImplementationClient.csprojResolveAssemblyReference.cache
-c:\dev\GameMultiplayerFramework\ImplementationClient\obj\Debug\ImplementationClient.exe
-c:\dev\GameMultiplayerFramework\ImplementationClient\obj\Debug\ImplementationClient.pdb
-c:\dev\GameMultiplayerFramework\ImplementationClient\bin\Debug\MultiplayerClient.dll
-c:\dev\GameMultiplayerFramework\ImplementationClient\bin\Debug\MultiplayerClient.pdb

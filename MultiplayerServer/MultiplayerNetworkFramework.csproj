@@ -39,11 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
-    <Compile Include="Packet.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="Client\Client.cs" />
+    <Compile Include="Common\AsyncWorker.cs" />
+    <Compile Include="Common\BaseUDP.cs" />
+    <Compile Include="Server\ServerClientHandle.cs" />
+    <Compile Include="Common\Packet.cs" />
+    <Compile Include="Server\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToBytes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

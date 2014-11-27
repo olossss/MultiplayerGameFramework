@@ -48,9 +48,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MultiplayerClient\MultiplayerClient.csproj">
-      <Project>{098b5a18-6bf9-4294-b712-7facfcd17e4a}</Project>
-      <Name>MultiplayerClient</Name>
+    <ProjectReference Include="..\MultiplayerServer\MultiplayerNetworkFramework.csproj">
+      <Project>{c83ffcc2-768e-4ab3-8b32-8026c66c5bd9}</Project>
+      <Name>MultiplayerNetworkFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

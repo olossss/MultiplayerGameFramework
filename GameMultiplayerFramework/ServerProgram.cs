@@ -18,7 +18,7 @@ namespace GameMultiplayerFramework
 
             Server server = new Server(int.Parse(portNumber));
             server.Setup();
-            server.StartServer();
+            server.StartListening();
 
             Console.WriteLine("Server Shut Down");
         }

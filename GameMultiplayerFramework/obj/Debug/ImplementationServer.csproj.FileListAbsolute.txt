@@ -1,8 +1,0 @@
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\bin\Debug\GameMultiplayerFramework.exe.config
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\bin\Debug\GameMultiplayerFramework.exe
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\bin\Debug\GameMultiplayerFramework.pdb
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\obj\Debug\ImplementationServer.csprojResolveAssemblyReference.cache
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\obj\Debug\GameMultiplayerFramework.exe
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\obj\Debug\GameMultiplayerFramework.pdb
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\bin\Debug\MultiplayerServer.dll
-c:\dev\GameMultiplayerFramework\GameMultiplayerFramework\bin\Debug\MultiplayerServer.pdb
