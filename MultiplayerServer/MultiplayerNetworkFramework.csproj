@@ -42,8 +42,22 @@
     <Compile Include="Client\Client.cs" />
     <Compile Include="Common\AsyncWorker.cs" />
     <Compile Include="Common\BaseUDP.cs" />
+    <Compile Include="Common\ExtentionHelpers.cs" />
+    <Compile Include="Common\PacketEncoder.cs" />
+    <Compile Include="Common\PacketDecoder.cs" />
+    <Compile Include="Common\PacketFactory.cs" />
+    <Compile Include="Common\Packets\AcknolagementPacket.cs" />
+    <Compile Include="Common\Packets\ConnectionAcceptedPacket.cs" />
+    <Compile Include="Common\Packets\ConnectionDisconnectedPacket.cs" />
+    <Compile Include="Common\Packets\ConnectionRejectedPacket.cs" />
+    <Compile Include="Common\Packets\ConnectionRequestPacket.cs" />
+    <Compile Include="Common\Packets\GameUpdatePacket.cs" />
+    <Compile Include="Common\Packets\TestPacket.cs" />
+    <Compile Include="Common\Packets\UserChatPacket.cs" />
+    <Compile Include="Common\Packets\UserInputPacket.cs" />
+    <Compile Include="Common\Packets\VoipPacket.cs" />
     <Compile Include="Server\ServerClientHandle.cs" />
-    <Compile Include="Common\Packet.cs" />
+    <Compile Include="Common\Packets\AbstractBasePacket.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

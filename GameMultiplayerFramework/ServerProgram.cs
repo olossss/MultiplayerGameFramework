@@ -1,4 +1,4 @@
-﻿using MultiplayerServer;
+﻿using MultiplayerFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +13,15 @@ namespace GameMultiplayerFramework
         {
             String portNumber = "9000";
 
+            Console.WriteLine("Server");
+            
+            /*
             Console.WriteLine("Enter Port Number: ");
-            //portNumber = Console.ReadLine();
+            portNumber = Console.ReadLine();
+            */
 
             Server server = new Server(int.Parse(portNumber));
-            server.Setup();
+            server.Init();
             server.StartListening();
 
             Console.WriteLine("Server Shut Down");
