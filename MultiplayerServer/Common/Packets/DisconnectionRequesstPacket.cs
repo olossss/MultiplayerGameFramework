@@ -6,33 +6,26 @@ using System.Threading.Tasks;
 
 namespace MultiplayerFramework.Common.Packets
 {
-    internal enum AcknolagementPacketSignals { 
-        CONFIRM_CONNECTED,
-        CONFIRM_DISCONNECTED
-    }
-    internal class AcknolagementPacket : AbstractBasePacket<AcknolagementPacket>
+    internal class DisconnectionRequestPacket : AbstractBasePacket<DisconnectionRequestPacket>
     {
         public UInt32 _clientID { get; set; }
-
-        public AcknolagementPacket()
+        public DisconnectionRequestPacket()
         {
-            _type = PacketType.Ack;
+            _type = PacketType.DisconnectRequest;
         }
 
         public override byte[] EncodePacket()
         {
-            return new PacketEncoder(_type)
+            return new PacketEncoder(PacketType.DisconnectRequest)
                 .Add(_clientID)
-                .Add(_sequenceNumber)
-               .BuildPacket();
+                .BuildPacket();
         }
 
-        public override AcknolagementPacket DecodePacket(byte[] packet)
+        public override DisconnectionRequestPacket DecodePacket(byte[] packet)
         {
             PacketDecoder decoder = new PacketDecoder(packet);
             _type = decoder.NextPacketType();
             _clientID = decoder.NextUnsignedInt32();
-            _sequenceNumber = decoder.NextUnsignedInt32();
             return this;
         }
     }

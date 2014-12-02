@@ -53,5 +53,12 @@ namespace MultiplayerFramework.Common
             packet._Byte = 32;
             return packet.EncodePacket();
         }
+
+        internal static byte[] Disconnect(UInt32 clientID)
+        {
+            var packet = new DisconnectionRequestPacket();
+            packet._clientID = clientID;
+            return packet.EncodePacket();
+        }
     }
 }

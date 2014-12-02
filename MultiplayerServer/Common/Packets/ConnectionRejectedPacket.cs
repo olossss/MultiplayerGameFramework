@@ -18,11 +18,16 @@ namespace MultiplayerFramework.Common.Packets
 
         public override byte[] EncodePacket()
         {
-            return null;
+            return new PacketEncoder(PacketType.ConnectionRejected)
+                .Add((Byte)_reason)
+                .BuildPacket();
         }
 
         public override ConnectionRejectedPacket DecodePacket(byte[] packet)
         {
+            PacketDecoder decoder = new PacketDecoder(packet);
+            _type = decoder.NextPacketType();
+            _reason = (ConnectionRejectedReason)decoder.NextByte();
             return this;
         }
     }

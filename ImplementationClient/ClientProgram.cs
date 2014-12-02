@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiplayerFramework.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -20,7 +21,7 @@ namespace ImplementationClient
 
             Thread.Sleep(1500);
 
-            MultiplayerClient.Client client = new MultiplayerClient.Client();
+            Client client = new Client();
             
             /*
             Console.WriteLine("Enter IP Address: ");
@@ -33,13 +34,11 @@ namespace ImplementationClient
             client.Connect(IpAddress, int.Parse(portNumber));
 
             // Send Connection Packet
-            Console.WriteLine("Press Enter To Send Empty Packet");
-            Console.ReadLine();
+            //Console.WriteLine("Press Enter To Send Empty Packet");
+            //Console.ReadLine();
             //client.SendMessage(""); 
-            
-            while (true) { 
-                // Dont force close
-            }
+
+            while (true) ;
 
         }
     }

@@ -15,100 +15,46 @@ using MultiplayerFramework;
 using MultiplayerFramework.Common;
 using MultiplayerFramework.Common.Packets;
 
-namespace MultiplayerClient
+namespace MultiplayerFramework.Client
 {
     public class Client : BaseUDP
     {
         private const int CLIENT_TIMEOUT = 25;
-
-        private AsyncWorker _listener;
-        private UInt32 _clientID { get; set; }
-
-        public Client()
-        {
-            _listener = new AsyncWorker();
-            _listener._workerThread = new Thread(new ThreadStart(this.Listen));
-        }
+        private Listener<Client> _listener { get; set; }
+        public UInt32 _clientID { get; set; }
 
         public void Connect(String IpAddress, int Port)
         {
+            Connect(IPAddress.Parse(IpAddress), Port);
+        }
+
+        public void Connect(IPAddress IpAddress, int Port)
+        {
             _localEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            _remoteEndPoint = new IPEndPoint(IPAddress.Parse(IpAddress), Port);
-            base.Setup();
-            _listener.Start();
+            _remoteEndPoint = new IPEndPoint(IpAddress, Port);
+            base.Initalize();
+
             SendMessage(PacketFactory.ConnectionRequest());
+            _listener = new ClientListener(this);
+            _listener.Start();
         }
 
-
-        #region Packet Handeling
-        private void Listen()
+        internal override void Close()
         {
-            // Might Need To Do A Check Here Agaisnt Client IP
-            byte[] data = null;
-            EndPoint ep = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
-
-            while (true)//(DateTime.Now < _lastAckTime.AddSeconds(CLIENT_TIMEOUT))
-            {
-                if (_socket.Available > 0)
-                {
-                    data = new byte[_socket.Available];
-                    _socket.ReceiveFrom(data, ref ep);
-                    HandlePacket(data, ep);
-                }
-            }
-
+            // DONT JOIN IN CLOSE - THIS IS A LISTENER FUNCTION
+            _listener.Stop();
+            _socket.Close();
         }
 
-        private void HandlePacket(byte[] data, EndPoint RecivedFrom)
+        public void Disconnect()
         {
-            PacketType packetType = Packet.GetPacketType(data);
-
-            switch (packetType)
-            {
-                case PacketType.ConnectionAccepted:
-                {
-                    ConnectionAcceptedPacket packet = new ConnectionAcceptedPacket().DecodePacket(data);
-                    _clientID = packet._clientID;
-                    _remoteEndPoint = (IPEndPoint)RecivedFrom;
-                    SendMessage(PacketFactory.Acknollagement(_clientID, 0));
-                    break;
-                }
-                case PacketType.ConnectionRejected:
-                    Disconnect();
-                    break;
-
-                case PacketType.TestPacket:
-                {
-                    TestPacket packet = new TestPacket().DecodePacket(data);
-                    /*    
-                    Console.WriteLine(packet._Int32);
-                    Console.WriteLine(packet._UInt32);
-                    Console.WriteLine(packet._Int16);
-                    Console.WriteLine(packet._UInt16);
-                    Console.WriteLine(packet._Boolean);
-                    Console.WriteLine(packet._Byte);
-                    Console.WriteLine(packet._String);
-                    */
-                    // Bounce Back
-                    SendMessage(data);
-                    break;
-                }
-            }
-
+            SendMessage(PacketFactory.Disconnect(_clientID));
+            //Join();
         }
-        #endregion
 
-
-        private void Disconnect()
+        public void Join()
         {
-            throw new NotImplementedException();
+            _listener.Join();
         }
-
-
-
-
-
-
-
     }
 }

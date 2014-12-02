@@ -1,4 +1,5 @@
 ﻿using MultiplayerFramework;
+using MultiplayerFramework.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,8 @@ namespace GameMultiplayerFramework
 
             Server server = new Server(int.Parse(portNumber));
             server.Init();
-            server.StartListening();
 
-            Console.WriteLine("Server Shut Down");
+            while (true) ;
         }
     }
 }

@@ -13,142 +13,160 @@ using System.Threading;
 using System.Threading.Tasks;
 using MultiplayerFramework.Common;
 using MultiplayerFramework.Common.Packets;
+using MultiplayerFramework;
+using System.Collections.Concurrent;
 
-namespace MultiplayerFramework
+namespace MultiplayerFramework.Server
 {
+    public enum ClientStateEnum
+    {
+        IDLE,
+        CONNECTING,
+        READY,
+        DISCONNECTED
+    }
     public class Server : BaseUDP
     {
         // Time It Takes To Timeout A New Connection
-        private const int CONNECTION_TIMEOUT = 10;
+        private const int CONNECTION_TIMEOUT = 0;
 
-        private int _portNumber;
-        private List<ServerClientHandle> _clients { get; set; }
-        private List<IPEndPoint> _BlackList { get; set; }
+        public int _portNumber { get; set; }
+        //private List<ClientHandle> _clients { get; set; }
+        //private ConcurrentQueue<ClientHandle> _clients { get; set; }
+        private ClientPool _clients { get; set; }
+        internal List<IPEndPoint> _BlackList { get; set; }
         public byte[] serverID { get; private set; }
         public bool isRunning { get; private set; }
         public int maxClients { get; set; }
+        internal AsyncWorker _cleaner;
 
-        private AsyncWorker _listener;
+        private ServerListener _listener;
 
         public Server(int port = 9000)
         {
             _portNumber = port;
-            _clients = new List<ServerClientHandle>();
             maxClients = 10;
-            _listener = new AsyncWorker();
+            _clients = new ClientPool();
             _BlackList = new List<IPEndPoint>();
+            _cleaner = new AsyncWorker();
         }
-
+        #region StartUp ShutDown
         public void Init()
         {
             // Set Up Port
             _localEndPoint = new IPEndPoint(IPAddress.Any, _portNumber);
-            base.Setup();
+            base.Initalize();
 
-            // Set Up Delegate Functions
-            _listener._workerThread = new Thread(new ThreadStart(this.Listen));
-        }
-
-        // This is not thread safe and should be run syncrounusly
-
-
-        public void DisconnectClient(UInt32 ClientID)
-        {
-            // Remove Client
-            foreach (ServerClientHandle client in _clients)
-            {
-                if (client._clientID == ClientID)
-                {
-                    client.Disconnect();
-                    _clients.Remove(client);
-                }
-            }
+            // Start Listener Thread
+            _listener = new ServerListener(this);
+            _listener.Start();
+            _cleaner._workerThread = new Thread(new ThreadStart(this.CleanDisconnections));
+            //_cleaner._workerThread.Priority = ThreadPriority.Lowest;
+            _cleaner.Start();
         }
 
         public void ShutDown()
         {
-            isRunning = false;
+            Debug.Instance.Log(DebugLevel.DEBUG, "Shutting Down Server...");
+            // Refuse all incomming clients
+            maxClients = 0;
 
-            foreach (ServerClientHandle client in _clients)
-                DisconnectClient(client._clientID);
+            _clients.SendAllClients(PacketFactory.Disconnect(0));
 
+            // Join On All Clients
+            while (_clients.Count() > 0) ;
+                //_clients.GetFirstClient().Shutdown();
+
+                Debug.Instance.Log(DebugLevel.DEBUG, "All Clients Disconnected");
+            // Close Listener Thread and Socket
+            _cleaner.Stop();
+            _listener.Stop();
+            
+            _listener.Join();
+            _cleaner.Join();
             _socket.Close();
+            Debug.Instance.Log(DebugLevel.DEBUG, "Server Completed Shutdown");
         }
 
-        private bool ClientExsists(UInt32 clientID)
+        internal void RequestRemove(UInt32 ClientID)
         {
-            foreach (ServerClientHandle client in _clients)
-                if (client._clientID == clientID)
-                    return true;
+            ClientHandle client = GetClientHandle(ClientID);
 
-            return false;
-        }
-
-        private UInt32 getNewClientID()
-        {
-            UInt32 newClientID = 0;
-
-            while (ClientExsists(newClientID) || newClientID <= 0)
-                newClientID++;
-
-            return newClientID;
-        }
-
-
-
-        #region Packet Handling
-        private void Listen()
-        {
-            isRunning = true;
-            EndPoint incommingEndPoint = new IPEndPoint(IPAddress.Any, 0);//(EndPoint)_remoteEndPoint; // Might Need To Do A Check Here Agaisnt Client IP
-            byte[] data = null;
-
-            while (isRunning)
+            if (client == null)
             {
-                if (_socket.Available > 0)
-                {
-                    data = new byte[_socket.Available];
-                    _socket.ReceiveFrom(data, ref incommingEndPoint);
-                    HandlePacket((IPEndPoint)incommingEndPoint, data);
-                }
+                Debug.Instance.Log(DebugLevel.ERROR, "Attempting To Delete A Nonexsitent Client ID; A Race Condition May Have Occured!");
+                return;
             }
+
+            //if (client.isDisconnected())
+                RemoveClientHandle(client._clientID);
+            //else
+                //Debug.Instance.Log(DebugLevel.ERROR, "Failed To Remove Client Handle (ClientID: " + ClientID +")");
         }
 
-        private void HandlePacket(IPEndPoint ClientAddress, byte[] packetData)
+        #endregion
+
+        private ClientHandle GetClientHandle(UInt32 clientID)
         {
-            PacketType packetType = Packet.GetPacketType(packetData);
-
-            if (packetType == PacketType.ConnectionRequest)
-            {
-                if (_BlackList.Contains(ClientAddress))
-                    RejectClient(ClientAddress, ConnectionRejectedReason.Blocked);
-
-                else if (_clients.Count >= maxClients)
-                    RejectClient(ClientAddress, ConnectionRejectedReason.ServerFull);
-
-                else
-                    ConnectClient(ClientAddress);
-            }
+            return _clients.Get(clientID);
         }
 
-        private void ConnectClient(IPEndPoint ClientAddress)
+        /*
+        private int GetClientHandleIndex(UInt32 clientID)
         {
-            Console.WriteLine("Attempting To Connect Client " + ClientAddress.ToString() + "... ");
-            ServerClientHandle newClient = new ServerClientHandle(ClientAddress, getNewClientID());
-            _clients.Add(newClient);
-            newClient.Connect();
+            for (int i = 0; i < _clients.Count(); ++i)
+                if (_clients[i]._clientID == clientID)
+                    return i;
+
+            return -1;
+        }*/
+
+        private void RemoveClientHandle(UInt32 clientID)
+        {
+           // int index = GetClientHandleIndex(clientID);
+            //_clients.RemoveAt(index);
+            _clients.RemoveClient(clientID);
+
         }
 
-        private void RejectClient(IPEndPoint ClientAddresss, ConnectionRejectedReason reason)
+        
+
+        internal void ConnectClient(IPEndPoint ClientAddress)
         {
-            Console.WriteLine("Client Rejected (" + reason +")");
-            SendMessage(PacketFactory.ConnectionRejected(reason));
+            Debug.Instance.Log(DebugLevel.DEBUG, "Client Connecting To Server (Client Address: " + ClientAddress.ToString() + ")");
+            _clients.Add(this, ClientAddress).Connect();
+        }
+
+        internal void RejectClient(IPEndPoint ClientAddresss, ConnectionRejectedReason reason, IPEndPoint address)
+        {
+            Debug.Instance.Log(DebugLevel.DEBUG, "Client Rejected (" + reason + ") " + address.ToString());
+            SendMessage(PacketFactory.ConnectionRejected(reason),  address);
+        }
+
+        public bool GetAllClientStatus(ClientStateEnum value) {
+
+            return _clients.HasClientWithStatus(value);
+        }
+
+        #region Unit Test Functions
+        public int ClientCount()
+        {
+            return _clients.Count();
+        }
+
+        internal override void Close()
+        {
+            // DONT JOIN IN CLOSE - THIS IS A LISTENER FUNCTION
+            _listener.Stop();
         }
         #endregion
 
-        public void StartListening()
+        private void CleanDisconnections()
         {
-            _listener.Start();
+            while(_cleaner.isRunning())
+            {
+                _clients.RemoveDisconnected();
+            }
         }
     }
 }

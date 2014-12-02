@@ -7,8 +7,8 @@
     <ProjectGuid>{C83FFCC2-768E-4AB3-8B32-8026C66C5BD9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MultiplayerServer</RootNamespace>
-    <AssemblyName>MultiplayerServer</AssemblyName>
+    <RootNamespace>MultiplayerFramework</RootNamespace>
+    <AssemblyName>MultiplayerFramework</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,15 +40,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\Client.cs" />
+    <Compile Include="Client\ClientListener.cs" />
     <Compile Include="Common\AsyncWorker.cs" />
     <Compile Include="Common\BaseUDP.cs" />
     <Compile Include="Common\ExtentionHelpers.cs" />
+    <Compile Include="Common\Listener.cs" />
     <Compile Include="Common\PacketEncoder.cs" />
     <Compile Include="Common\PacketDecoder.cs" />
     <Compile Include="Common\PacketFactory.cs" />
     <Compile Include="Common\Packets\AcknolagementPacket.cs" />
     <Compile Include="Common\Packets\ConnectionAcceptedPacket.cs" />
-    <Compile Include="Common\Packets\ConnectionDisconnectedPacket.cs" />
+    <Compile Include="Common\Packets\DisconnectionRequesstPacket.cs" />
     <Compile Include="Common\Packets\ConnectionRejectedPacket.cs" />
     <Compile Include="Common\Packets\ConnectionRequestPacket.cs" />
     <Compile Include="Common\Packets\GameUpdatePacket.cs" />
@@ -56,10 +58,14 @@
     <Compile Include="Common\Packets\UserChatPacket.cs" />
     <Compile Include="Common\Packets\UserInputPacket.cs" />
     <Compile Include="Common\Packets\VoipPacket.cs" />
-    <Compile Include="Server\ServerClientHandle.cs" />
+    <Compile Include="Debug.cs" />
+    <Compile Include="Server\ClientHandle.cs" />
     <Compile Include="Common\Packets\AbstractBasePacket.cs" />
+    <Compile Include="Server\ClientPool.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\ClientHandleListener.cs" />
+    <Compile Include="Server\ServerListener.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

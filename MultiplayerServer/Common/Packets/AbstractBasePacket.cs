@@ -14,10 +14,12 @@ namespace MultiplayerFramework.Common.Packets
 {
     public enum PacketType
     {
+        EmptyBuffer,
         Ack,
         ConnectionRequest,
         ConnectionAccepted,
         ConnectionRejected,
+        DisconnectRequest,
         TestPacket
     }
 
@@ -45,6 +47,11 @@ namespace MultiplayerFramework.Common.Packets
 
         public abstract byte[] EncodePacket();
         public abstract T DecodePacket(byte[] packet);
+        public int packetSize()
+        {
+            return EncodePacket().Length;
+        }
+        
     }
 
 }
